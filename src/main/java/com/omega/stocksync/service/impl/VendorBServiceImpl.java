@@ -30,30 +30,28 @@ public class VendorBServiceImpl implements VendorService {
   public List<ProductDto> fetch() {
     List<ProductDto> products = new ArrayList<>();
 
-    try {
-      if (!Files.exists(Paths.get(vendorBPath))) {
-        throw new IllegalStateException(ERR_CSV_NOT_FOUND + vendorBPath);
-      }
+    if (!Files.exists(Paths.get(vendorBPath))) {
+      throw new IllegalStateException(ERR_CSV_NOT_FOUND + vendorBPath);
+    }
 
-      try (Reader reader = new FileReader(vendorBPath);
-          CSVParser csvParser =
-              CSVFormat.DEFAULT
-                  .builder()
-                  .setHeader()
-                  .setSkipHeaderRecord(true)
-                  .setIgnoreHeaderCase(true)
-                  .setTrim(true)
-                  .build()
-                  .parse(reader)) {
+    try (Reader reader = new FileReader(vendorBPath);
+        CSVParser csvParser =
+            CSVFormat.DEFAULT
+                .builder()
+                .setHeader()
+                .setSkipHeaderRecord(true)
+                .setIgnoreHeaderCase(true)
+                .setTrim(true)
+                .build()
+                .parse(reader)) {
 
-        for (CSVRecord row : csvParser) {
-          String sku = row.get(COLUMN_SKU);
-          String name = row.get(COLUMN_NAME);
-          Integer stockQuantity = Integer.parseInt(row.get(COLUMN_STOCK_QTY));
-          String vendorName = this.getVendorName();
+      for (CSVRecord row : csvParser) {
+        String sku = row.get(COLUMN_SKU);
+        String name = row.get(COLUMN_NAME);
+        Integer stockQuantity = Integer.parseInt(row.get(COLUMN_STOCK_QTY));
+        String vendorName = this.getVendorName();
 
-          products.add(new ProductDto(sku, name, stockQuantity, vendorName));
-        }
+        products.add(new ProductDto(sku, name, stockQuantity, vendorName));
       }
     } catch (Exception e) {
       throw new RuntimeException(ERR_FAILED_TO_READ_CSV + vendorBPath, e);
