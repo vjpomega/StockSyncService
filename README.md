@@ -74,6 +74,7 @@ A **Spring Boot microservice** that synchronizes product stock levels from multi
 #### Trade-offs
 - Only out of stock event is saved and not full history of the product. In this case, the DB stays small
 - Simple error handling (e.g CSV error handling, not every error scenario was handled)
+- Simple entity to object (vice versa) mapping. Can use mapstruct to avoid boilerplate code in case of more attributes.
 
 #### Ideas for Improvement
 - Since Products can scale, it is better to use pagination for the response to get all products
