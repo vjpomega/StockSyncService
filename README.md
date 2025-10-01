@@ -61,9 +61,27 @@ A **Spring Boot microservice** that synchronizes product stock levels from multi
   }
 ]
 
-### Assumptions
- 
+### Assumptions & Decisions Made
+- Assumed 3 attempts only for Vendor A Api in case of failure
+- Only out-of-stock transitions are logged and recorded in table (stock_out_event)
+- Used PostgreSQL instead of using in memory (h2) since DB is inside container
+- Runs at configurable intervals (1 min)
+- Extensibility: New vendors implement VendorService interface.
+- Sync will continue even if one vendor processing results into an error.
+- Fetching vendor products as asynchronous.
 
+### Trade-offs or Ideas for Improvement
+#### Trade-offs
+- Only out of stock event is saved and not full history of the product. In this case, the DB stays small
+- Simple error handling (e.g CSV error handling, not every error scenario was handled)
+
+#### Ideas for Improvement
+- Since Products can scale, it is better to use pagination for the response to get all products
+- If vendors will scale more, we can update the vendorController to only have one getVendorProducts API with additional filters
+- Add command to automatically transfer csv file from resources/ to container to minimize local setup.
+- Full stock audit history
+- Add Global Exception Handling (Using @ControllerAdvice) for better API error response.
+- 
 
    
 
