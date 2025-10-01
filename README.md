@@ -81,6 +81,7 @@ A **Spring Boot microservice** that synchronizes product stock levels from multi
 - Add command to automatically transfer csv file from resources/ to container to minimize local setup.
 - Full stock audit history
 - Add Global Exception Handling (Using @ControllerAdvice) for better API error response.
+- Only added few unit test samples. Need to improve code coverage (ideally above 80%)
   
 
    
