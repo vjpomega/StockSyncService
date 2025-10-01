@@ -2,7 +2,6 @@ package com.omega.stocksync.service.impl;
 
 import com.omega.stocksync.dto.ProductDto;
 import com.omega.stocksync.service.VendorService;
-import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,11 @@ public class VendorAServiceImpl implements VendorService {
 
   @Override
   public List<ProductDto> fetch() {
-    return Collections.singletonList(
-        webClient.get().uri(url).retrieve().bodyToMono(ProductDto.class).block());
+    return webClient.get().uri(url).retrieve().bodyToFlux(ProductDto.class).collectList().block();
+  }
+
+  @Override
+  public String getVendorName() {
+    return "VENDOR_A";
   }
 }

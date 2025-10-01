@@ -21,10 +21,10 @@ public class VendorController {
   @GetMapping("a/product")
   public List<ProductDto> getAProducts() {
     return Arrays.asList(
-        new ProductDto("ABC123", "Product A", 8),
-        new ProductDto("LMN789", "Product C", 0),
-        new ProductDto("DEF123", "Product D", 25),
-        new ProductDto("EFG456", "Product B", 30));
+        new ProductDto("ABC123", "Product A", 8, "VENDOR_A"),
+        new ProductDto("LMN789", "Product C", 0, "VENDOR_A"),
+        new ProductDto("DEF123", "Product D", 25, "VENDOR_A"),
+        new ProductDto("EFG456", "Product B", 30, "VENDOR_A"));
   }
 
   @GetMapping("b/product")

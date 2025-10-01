@@ -50,8 +50,9 @@ public class VendorBServiceImpl implements VendorService {
           String sku = row.get(COLUMN_SKU);
           String name = row.get(COLUMN_NAME);
           Integer stockQuantity = Integer.parseInt(row.get(COLUMN_STOCK_QTY));
+          String vendorName = this.getVendorName();
 
-          products.add(new ProductDto(sku, name, stockQuantity));
+          products.add(new ProductDto(sku, name, stockQuantity, vendorName));
         }
       }
     } catch (Exception e) {
@@ -59,5 +60,10 @@ public class VendorBServiceImpl implements VendorService {
     }
 
     return products;
+  }
+
+  @Override
+  public String getVendorName() {
+    return "VENDOR_B";
   }
 }

@@ -3,13 +3,15 @@ package com.omega.stocksync.entity;
 import com.omega.stocksync.common.AuditInfo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(
     name = "product",
     uniqueConstraints = {@UniqueConstraint(columnNames = {"sku", "vendor"})})
