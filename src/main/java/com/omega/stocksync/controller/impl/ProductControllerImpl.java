@@ -1,9 +1,12 @@
 package com.omega.stocksync.controller.impl;
 
 import com.omega.stocksync.controller.ProductController;
+import com.omega.stocksync.dto.ProductDto;
+import com.omega.stocksync.service.ProductService;
 import com.omega.stocksync.service.StockSyncService;
-import io.swagger.v3.oas.annotations.Operation;
+import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,17 +16,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductControllerImpl implements ProductController {
 
   private final StockSyncService stockSyncService;
+  private final ProductService productService;
 
-  public ProductControllerImpl(StockSyncService stockSyncService) {
+  public ProductControllerImpl(StockSyncService stockSyncService, ProductService productService) {
     this.stockSyncService = stockSyncService;
+    this.productService = productService;
   }
 
   @PostMapping("/sync")
-  @Operation(
-      summary = "Trigger manual sync",
-      description = "Manually trigger stock synchronization from all vendors")
   public ResponseEntity<String> triggerSync() {
     stockSyncService.syncAllVendors();
     return ResponseEntity.ok("Stock synchronization triggered successfully");
+  }
+
+  @GetMapping
+  public ResponseEntity<List<ProductDto>> getAllProducts() {
+    return ResponseEntity.ok(productService.getAllProducts());
   }
 }

@@ -21,7 +21,14 @@ public class VendorAServiceImpl implements VendorService {
 
   @Override
   public List<ProductDto> fetch() {
-    return webClient.get().uri(url).retrieve().bodyToFlux(ProductDto.class).collectList().block();
+    return webClient
+        .get()
+        .uri(url)
+        .retrieve()
+        .bodyToFlux(ProductDto.class)
+        .collectList()
+        .retry(3)
+        .block();
   }
 
   @Override
