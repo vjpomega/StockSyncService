@@ -1,3 +1,5 @@
+version: '3'
+
 services:
   postgres:
     image: 'postgres:15.1'
@@ -7,3 +9,18 @@ services:
       - POSTGRES_USER=postgres
     ports:
       - 57745:5432
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: stock-sync-app
+    container_name: stock-sync-app
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/stock_sync
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - VENDOR_B_PATH=/tmp/vendor-b/stock.csv
+    depends_on:
+      - postgres

@@ -23,6 +23,11 @@ FROM eclipse-temurin:17-jre
 WORKDIR /app
 # Copy the compiled application JAR from the builder stage
 COPY --from=builder /app/target/*.jar app.jar
+
+# Copy your CSV file from resources to /tmp/vendor-b/
+RUN mkdir -p /tmp/vendor-b
+COPY src/main/resources/csv/stock.csv /tmp/vendor-b/stock.csv
+
 EXPOSE 8080
 
 # Run the application
